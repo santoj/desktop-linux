@@ -2,7 +2,7 @@
 # FOR USE BY install.sh
 
 # For Google Chrome
-if [ -f /etc/apt/sources.list.d/google-chrome.list ];then
+if [ -f /etc/apt/sources.list.d/google-chrome.list ]; then
   echo_found  "Google Chrome apt source"
 else
   echo_adding "Googel Chrome apt source"
