@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# FOR USE BY install.sh
+
+# For Google Chrome
+if [ -f /etc/apt/sources.list.d/google-chrome.list ];then
+  echo_found  "Google Chrome apt source"
+else
+  echo_adding "Googel Chrome apt source"
+  echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+fi
+
+apt-key list 2>/dev/null | grep "4CCA 1EAF 950C EE4A B839  76DC A040 830F 7FAC 5991" >/dev/null && \
+  apt-key       list 2>/dev/null | grep "EB4C 1BFD 4F04 2F6D DDCC  EC91 7721 F63B D38B 4796" >/dev/null
+if [ $? -eq 0 ]; then
+  echo_found  "Google Chrome GPG key"
+else
+  echo_adding "Google Chrome GPG key"
+  wget -qO - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
+fi
+

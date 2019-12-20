@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# FOR USE BY install.sh
+
+# For Grub-Customizer
+if [ -f /etc/apt/sources.list.d/danielrichter2007* ];then
+  echo_found  "Grub-Customizer PPA"
+else
+  echo_adding "Grub-Customizer PPA"
+  add-apt-repository ppa:danielrichter2007/grub-customizer
+fi
+

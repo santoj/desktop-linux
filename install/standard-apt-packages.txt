@@ -1,0 +1,37 @@
+# FOR USE BY install.sh
+
+vim
+sublime-text
+git
+meld
+xreader
+ttf-mscorefonts-installer
+inxi
+neofetch
+
+grub-customizer
+hwinfo
+fwupd
+ukuu
+tlp
+powertop
+conky
+bleachbit
+gparted
+docky
+
+peek
+audacity
+vlc
+dia
+google-chrome-stable
+passwordsafe
+zoom-player
+#virtualbox-6.1 -- must do this manually for now
+python3-gpg # needed by dropbox
+dropbox
+
+#wine
+#wine-tricks
+#tmux
+#youtube-dl

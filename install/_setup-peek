@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# FOR USE BY install.sh
+
+# For Peek
+if [ -f /etc/apt/sources.list.d/peek-developers-stable* ];then
+  echo_found  "Peek PPA"
+else
+  echo_adding "Peek PPA"
+  add-apt-repository ppa:peek-developers/stable
+fi
+

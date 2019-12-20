@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# FOR USE BY install.sh
+
+# For Sublime
+apt-key list 2>/dev/null | grep "1EDD E2CD FC02 5D17 F6DA  9EC0 ADAE 6AD2 8A8F 901A" >/dev/null
+if [ $? -eq 0 ]; then
+  echo_found  "Sublime GPG key"
+else
+  echo_adding "Sublime GPG key"
+  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -
+fi
+
