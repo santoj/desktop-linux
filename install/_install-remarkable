@@ -5,7 +5,7 @@
 REMARKABLE_DEB=$TEMP_DIR/remarkable.deb
 
 #if dpkg --get-selections | grep -q "^remarkable-1.87\s*install$"; then
-if is_installed "remarkable-1.87"; then
+if is_installed "remarkable"; then
   echo_found  "Remarkable"
 else
   echo_adding "Remarkable"
