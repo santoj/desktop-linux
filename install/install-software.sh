@@ -48,7 +48,7 @@ mkdir -p $TEMP_DIR
 ###
 ### Configure APT Sources and Keys
 ###
-for f in $DIR/_setup-*; do
+for f in $DIR/_setup-*; do # this assumes at least 1 file exists
   echo "Processing $f file..";
   source $f
 done
@@ -77,7 +77,7 @@ done < $STANDARD_APT_PACKAGES
 ###
 ### Install Non-Standard Packages
 ###
-for f in $DIR/_install-*; do
+for f in $DIR/_install-*; do # this assumes at least 1 file exists
   echo "Processing $f file..";
   source $f
 done
