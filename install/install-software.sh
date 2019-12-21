@@ -15,6 +15,7 @@ END_COLOR=$'\e[0m'
 
 APT_INSTALLED=$TEMP_DIR/apt.installed
 STANDARD_APT_PACKAGES=$DIR/standard-apt-packages.txt
+NONSTANDARD_DPKG_PACKAGES=$DIR/nonstandard-dpkg-packages.txt
 
 function echo_found {
   echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
@@ -34,6 +35,21 @@ function apt_install_if_missing {
   else
     echo_adding "$1"
     apt-get -y install $1
+  fi
+}
+
+function dpkg_install_if_missing {
+  DEB_NAME=$1
+  DEB_FILE=$TEMP_DIR/$DEB_NAME.deb
+  DEB_URL=$2
+  if is_installed $DEB_NAME; then
+    echo_found "$DEB_NAME"
+  else
+    echo_adding "$DEB_NAME"
+    # download deb file if missing
+    [[ ! -s $DEB_FILE ]] && wget -q $DEB_URL -O $DEB_FILE || echo "DEB file already exists: $DEB_FILE"
+    # use gdebi rather than dpkg since it handles dependecies better
+    gdebi -qn $DEB_FILE
   fi
 }
 
@@ -77,10 +93,13 @@ done < $STANDARD_APT_PACKAGES
 ###
 ### Install Non-Standard Packages
 ###
-for f in $DIR/_install-*; do # this assumes at least 1 file exists
-  echo "Processing $f file..";
-  source $f
-done
+while read -r line; do
+  # ignore comments and blank lines
+  [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
+
+  dpkg_install_if_missing $line
+done < $NONSTANDARD_DPKG_PACKAGES
+
 
 
 ###

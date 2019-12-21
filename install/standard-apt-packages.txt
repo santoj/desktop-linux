@@ -27,9 +27,11 @@ dia
 google-chrome-stable
 passwordsafe
 zoom-player
-#virtualbox-6.1 -- must do this manually for now
 python3-gpg # needed by dropbox
 dropbox
+
+#virtualbox -- doesn't work
+#virtualbox-6.1 -- doesn't work
 
 #wine
 #wine-tricks

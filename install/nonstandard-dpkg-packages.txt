@@ -1,0 +1,7 @@
+# FOR USE BY install.sh
+# Format: <APT name> <URL to debian package>
+
+remarkable                http://remarkableapp.github.io/files/remarkable_1.87_all.deb
+onlyoffice-desktopeditors https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb
+veracrypt                 https://launchpad.net/veracrypt/trunk/1.24-update2/+download/veracrypt-1.24-Update2-Ubuntu-18.04-amd64.deb
+
