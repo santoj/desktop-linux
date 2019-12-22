@@ -13,11 +13,11 @@ ADDING_COLOR=$'\e[1;31m'
 EXISTS_COLOR=$'\e[1;32m'
 END_COLOR=$'\e[0m'
 
-APT_INSTALLED=$TEMP_DIR/apt.installed
+APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
-STANDARD_APT_PACKAGES=$DIR/standard-apt-packages.txt
-NONSTANDARD_DPKG_PACKAGES=$DIR/nonstandard-dpkg-packages.txt
-NONSTANDARD_FLATPAK_PACKAGES=$DIR/nonstandard-flatpak-packages.txt
+APT_PACKAGES=$DIR/standard-apt-packages.txt
+DPKG_PACKAGES=$DIR/nonstandard-dpkg-packages.txt
+FLATPAK_PACKAGES=$DIR/nonstandard-flatpak-packages.txt
 
 function echo_found {
   echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
@@ -28,7 +28,7 @@ function echo_adding {
 }
 
 function is_apt_installed {
-  grep -q "$1/" $APT_INSTALLED
+  grep -q "$1/" $APT_OR_DPKG_INSTALLED
 }
 
 function is_flatpak_installed {
@@ -36,11 +36,12 @@ function is_flatpak_installed {
 }
 
 function apt_install_if_missing {
-  if is_apt_installed $1; then
-    echo_found "$1"
+  APT_NAME=$1
+  if is_apt_installed $APT_NAME; then
+    echo_found "$APT_NAME"
   else
-    echo_adding "$1"
-    apt-get -y install $1
+    echo_adding "$APT_NAME"
+    apt-get -y install $APT_NAME
   fi
 }
 
@@ -61,11 +62,12 @@ function dpkg_install_if_missing {
 
 function flatpak_install_if_missing {
   #E.g., flatpak install https://flathub.org/repo/appstream/org.vim.Vim.flatpakref
-  if is_flatpak_installed $1; then
-    echo_found "$1"
+  FLATPAK_NAME=$1
+  if is_flatpak_installed $FLATPAK_NAME; then
+    echo_found "$FLATPAK_NAME"
   else
-    echo_adding "$1"
-    flatpak install $1
+    echo_adding "$FLATPAK_NAME"
+    flatpak install $FLATPAK_NAME
   fi
 }
 
@@ -95,43 +97,29 @@ apt-get update
 flatpak update
 
 # Alternate option of "dpkg --get-selections" was avoided since we are using apt for most things
-apt list 2>/dev/null | grep installed > $APT_INSTALLED
+apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED
 flatpak list 2>/dev/null > $FLATPAK_INSTALLED
 
-#TODO: refactor the following 3 blocks to make them DRY
-###
-### Install Standard APT Packages
-###
-if [ -s $STANDARD_APT_PACKAGES ]; then
-  while read -r line; do
-    # ignore comments and blank lines
-    [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
-
-    apt_install_if_missing $line
-  done < $STANDARD_APT_PACKAGES
-fi
-
 
 ###
-### Install Non-Standard Packages
+### Install Packages
 ###
-if [ -s $NONSTANDARD_DPKG_PACKAGES ]; then
-  while read -r line; do
-    # ignore comments and blank lines
-    [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
+function install_packages {
+  # PARAMS: <file with a list of packages> <function that will install the packages>
+  FILE_WITH_PACKAGES=$1
+  FUNCTION_TO_INSTALL_PACKAGES=$2
+  if [ -s $FILE_WITH_PACKAGES ]; then
+    while read -r line; do
+      # ignore comments and blank lines
+      [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
+      ($FUNCTION_TO_INSTALL_PACKAGES $line)
+    done < $FILE_WITH_PACKAGES
+  fi
+}
 
-    dpkg_install_if_missing $line
-  done < $NONSTANDARD_DPKG_PACKAGES
-fi
-
-if [ -s $NONSTANDARD_FLATPAK_PACKAGES ]; then
-  while read -r line; do
-    # ignore comments and blank lines
-    [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
-
-    flatpak_install_if_missing $line
-  done < $NONSTANDARD_FLATPAK_PACKAGES
-fi
+install_packages $APT_PACKAGES     apt_install_if_missing
+install_packages $DPKG_PACKAGES    dpkg_install_if_missing
+install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
 
 
 ###
