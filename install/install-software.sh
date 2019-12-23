@@ -15,9 +15,9 @@ END_COLOR=$'\e[0m'
 
 APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
-APT_PACKAGES=$DIR/standard-apt-packages.txt
-DPKG_PACKAGES=$DIR/nonstandard-dpkg-packages.txt
-FLATPAK_PACKAGES=$DIR/nonstandard-flatpak-packages.txt
+APT_PACKAGES=$DIR/apt-packages.txt
+DPKG_PACKAGES=$DIR/dpkg-packages.txt
+FLATPAK_PACKAGES=$DIR/flatpak-packages.txt
 
 function echo_found {
   echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
