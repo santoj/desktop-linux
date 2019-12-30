@@ -8,6 +8,7 @@ xreader
 ttf-mscorefonts-installer
 inxi
 neofetch
+nethogs
 
 grub-customizer
 hwinfo
