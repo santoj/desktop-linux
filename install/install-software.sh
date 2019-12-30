@@ -121,6 +121,9 @@ install_packages $APT_PACKAGES     apt_install_if_missing
 install_packages $DPKG_PACKAGES    dpkg_install_if_missing
 install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
 
+# get rid of any unnecessary packages
+apt autoremove
+#flatpak remove --unused
 
 ###
 ### Firmware Updates
