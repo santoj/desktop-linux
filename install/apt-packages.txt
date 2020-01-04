@@ -9,7 +9,7 @@ ttf-mscorefonts-installer
 inxi
 neofetch
 nethogs
-
+openssh-server
 grub-customizer
 hwinfo
 fwupd
