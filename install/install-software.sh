@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-#abort on errors
-set -eo pipefail
-
 # DIR = the directory of this script, not the current working directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEMP_DIR=$DIR/.cache
@@ -18,6 +15,11 @@ FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
 APT_PACKAGES=$DIR/apt-packages.txt
 DPKG_PACKAGES=$DIR/dpkg-packages.txt
 FLATPAK_PACKAGES=$DIR/flatpak-packages.txt
+
+function exit_on_error {
+  echo "$1"
+  exit 1
+}
 
 function echo_found {
   echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
@@ -41,7 +43,7 @@ function apt_install_if_missing {
     echo_found "$APT_NAME"
   else
     echo_adding "$APT_NAME"
-    apt-get -y install $APT_NAME
+    apt-get -y install $APT_NAME || exit_on_error "Failed to install APT package $APT_NAME"
   fi
 }
 
@@ -56,7 +58,7 @@ function dpkg_install_if_missing {
     # download deb file if missing
     [[ ! -s $DEB_FILE ]] && wget -q $DEB_URL -O $DEB_FILE || echo "DEB file already exists: $DEB_FILE"
     # use gdebi rather than dpkg since it handles dependecies better
-    gdebi -qn $DEB_FILE
+    gdebi -qn $DEB_FILE || exit_on_error "Failed to install deb file $DEB_FILE"
   fi
 }
 
@@ -67,7 +69,7 @@ function flatpak_install_if_missing {
     echo_found "$FLATPAK_NAME"
   else
     echo_adding "$FLATPAK_NAME"
-    flatpak install $FLATPAK_NAME
+    flatpak install $FLATPAK_NAME || exit_on_error "Failed to install flatpak $FLATPAK_NAME"
   fi
 }
 
@@ -85,16 +87,18 @@ mkdir -p $TEMP_DIR
 for f in $DIR/_setup-*; do
   # in case there aren't any setup- files, we don't want to error out
   [[ ! -s $f ]] && continue
-  echo "Processing $f file..";
-  source $f
+  echo "Processing $f file...";
+  source $f || exit_on_error "Failed to process $f"
 done
 
 
 ###
 ### Update Package Index and remember what we have already installed
 ###
-apt-get update
-flatpak update
+apt-get update || exit_on_error "Is APT installed?"
+flatpak update || exit_on_error "Is Flatpak installed?"
+gdebi --version || exit_on_error "Is gdebi installed?"
+
 
 # Alternate option of "dpkg --get-selections" was avoided since we are using apt for most things
 apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED

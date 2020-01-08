@@ -10,7 +10,7 @@ inxi
 neofetch
 nethogs
 openssh-server
-grub-customizer
+#grub-customizer
 hwinfo
 fwupd
 ukuu
