@@ -2,9 +2,11 @@
 
 # DIR = the directory of this script, not the current working directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TEMP_DIR=$DIR/.cache
+CONFIG_DIR=~/.config/desktop-linux
+TEMP_DIR=$CONFIG_DIR/cache
 
 WHOAMI=$(/usr/bin/whoami)
+ORIGINAL_USER=$(logname)
 
 ADDING_COLOR=$'\e[1;31m'
 EXISTS_COLOR=$'\e[1;32m'
@@ -12,9 +14,9 @@ END_COLOR=$'\e[0m'
 
 APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
-APT_PACKAGES=$DIR/apt-packages.txt
-DPKG_PACKAGES=$DIR/dpkg-packages.txt
-FLATPAK_PACKAGES=$DIR/flatpak-packages.txt
+APT_PACKAGES=$CONFIG_DIR/apt-packages.txt
+DPKG_PACKAGES=$CONFIG_DIR/dpkg-packages.txt
+FLATPAK_PACKAGES=$CONFIG_DIR/flatpak-packages.txt
 
 function exit_on_error {
   echo "$1"
@@ -73,13 +75,31 @@ function flatpak_install_if_missing {
   fi
 }
 
+###
+### MAIN
+###
 if [ "$WHOAMI" != "root" ]; then
   printf 'Please use "sudo" to execute this script.\n'
   exit 100
 fi
 
+mkdir -p $CONFIG_DIR
 mkdir -p $TEMP_DIR
+chown -R $ORIGINAL_USER:$ORIGINAL_USER $CONFIG_DIR
+chown -R $ORIGINAL_USER:$ORIGINAL_USER $TEMP_DIR
 
+[ -r $APT_PACKAGES ] || touch $APT_PACKAGES
+[ -r $DPKG_PACKAGES ] || touch $DPKG_PACKAGES
+[ -r $FLATPAK_PACKAGES ] || touch $FLATPAK_PACKAGES
+
+NUM_LINES=$(wc -l $APT_PACKAGES $DPKG_PACKAGES $FLATPAK_PACKAGES | grep total | awk '{ print $1 }')
+if [[ $NUM_LINES -lt 1 ]]; then
+  printf "WARNING: No packages found in the packages files:\n\t$APT_PACKAGES\n\t$DPKG_PACKAGES\n\t$FLATPAK_PACKAGES\n\n"
+  printf "Please see the sample packages in\n\t$DIR\nand add desired packages to your files.\n\n"
+  exit 2
+fi
+
+# TODO - ensure _setup-xxx files only run if/when the corresponding package is being installed
 
 ###
 ### Configure APT Sources and Keys
@@ -104,6 +124,7 @@ gdebi --version || exit_on_error "Is gdebi installed?"
 apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED
 flatpak list 2>/dev/null > $FLATPAK_INSTALLED
 
+# TODO: let users configure packages and leave what we have as examples only...ensure the project works by default on multiple platforms
 
 ###
 ### Install Packages
