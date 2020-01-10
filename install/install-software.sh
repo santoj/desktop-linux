@@ -138,11 +138,11 @@ fi
 ###
 ### Update Package Index and remember what we have already installed
 ###
-apt-get update  || (echo "APT is required installed. Please install and then rerun this script." && exit 1)
-flatpak update  || (echo "Flatpak is not installed. Any flatpak packages will be ignored." && MISSING_FLATPAK=true)
-gdebi --version || (echo "GDebi is not installed. Any deb packages will be ignored." && MISSING_GDEBI=true)
+apt-get update              || (echo "APT is required installed. Please install and then rerun this script." && exit 1)
+flatpak update  2>/dev/null || (echo "Flatpak is not installed. Any flatpak packages will be ignored." && MISSING_FLATPAK=true)
+gdebi --version &>/dev/null || (echo "GDebi is not installed. Any deb packages will be ignored." && MISSING_GDEBI=true)
 if [[ $(grep "^ID=" /etc/os-release | grep "ubuntu") ]]; then
-  snap refresh  || (echo "Snap is not installed. Any snap packages will be ignored." && MISSING_SNAP=true)
+  snap refresh  2>/dev/null || (echo "Snap is not installed. Any snap packages will be ignored." && MISSING_SNAP=true)
 else
   MISSING_SNAP=true
 fi
@@ -169,7 +169,7 @@ apt autoremove
 ###
 ### Firmware Updates
 ###
-fwupdmgr get-updates
+[ $(which fwupdmgr) ] && fwupdmgr get-updates
 
 
 echo "Installations complete...exiting"
