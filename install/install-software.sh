@@ -75,6 +75,27 @@ function flatpak_install_if_missing {
   fi
 }
 
+function install_packages {
+  # PARAMS: <file with a list of packages> <function that will install the packages>
+  FILE_WITH_PACKAGES=$1
+  FUNCTION_TO_INSTALL_PACKAGES=$2
+  if [ -s $FILE_WITH_PACKAGES ]; then
+    while read -r package; do
+      # ignore comments and blank lines
+      [[ "$package" =~ ^#.*$ || "$package" =~ ^\s*$ ]] && continue
+      # execute setup-<package> file if present to configure prerequisites (e.g., APT Sources, Keys, etc.)
+      SETUP_FILE="$CONFIG_DIR/setup-$package"
+      if [[ -s $SETUP_FILE ]]; then
+        echo "Processing $SETUP_FILE..."
+        source $SETUP_FILE || exit_on_error "Failed to process $SETUP_FILE"
+      fi
+      # install the given package
+      ($FUNCTION_TO_INSTALL_PACKAGES $package)
+    done < $FILE_WITH_PACKAGES
+  fi
+}
+
+
 ###
 ### MAIN
 ###
@@ -99,18 +120,6 @@ if [[ $NUM_LINES -lt 1 ]]; then
   exit 2
 fi
 
-# TODO - ensure _setup-xxx files only run if/when the corresponding package is being installed
-
-###
-### Configure APT Sources and Keys
-###
-for f in $DIR/_setup-*; do
-  # in case there aren't any setup- files, we don't want to error out
-  [[ ! -s $f ]] && continue
-  echo "Processing $f file...";
-  source $f || exit_on_error "Failed to process $f"
-done
-
 
 ###
 ### Update Package Index and remember what we have already installed
@@ -124,24 +133,10 @@ gdebi --version || exit_on_error "Is gdebi installed?"
 apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED
 flatpak list 2>/dev/null > $FLATPAK_INSTALLED
 
-# TODO: let users configure packages and leave what we have as examples only...ensure the project works by default on multiple platforms
 
 ###
-### Install Packages
+### Install Packages - to keep code DRY, we pass a function to a function
 ###
-function install_packages {
-  # PARAMS: <file with a list of packages> <function that will install the packages>
-  FILE_WITH_PACKAGES=$1
-  FUNCTION_TO_INSTALL_PACKAGES=$2
-  if [ -s $FILE_WITH_PACKAGES ]; then
-    while read -r line; do
-      # ignore comments and blank lines
-      [[ "$line" =~ ^#.*$ || "$line" =~ ^\s*$ ]] && continue
-      ($FUNCTION_TO_INSTALL_PACKAGES $line)
-    done < $FILE_WITH_PACKAGES
-  fi
-}
-
 install_packages $APT_PACKAGES     apt_install_if_missing
 install_packages $DPKG_PACKAGES    dpkg_install_if_missing
 install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
@@ -156,5 +151,5 @@ apt autoremove
 fwupdmgr get-updates
 
 
-exit 0
+echo "Installations complete...exiting"
 
