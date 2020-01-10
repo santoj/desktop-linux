@@ -1,4 +1,4 @@
-# FOR USE BY install.sh
+# FOR USE BY install-software.sh
 # Format: <APT name> <URL to debian package>
 
 # remarkable should be installed with dpkg on Linux Mint, but with snap on Ubuntu

@@ -1,4 +1,4 @@
-# FOR USE BY install.sh
+# FOR USE BY install-software.sh
 # Format: <flatpak name> <URL to flatpak package>
 
 org.vim.Vim https://flathub.org/repo/appstream/org.vim.Vim.flatpakref

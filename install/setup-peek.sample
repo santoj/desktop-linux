@@ -3,7 +3,7 @@
 
 # For Peek
 APT_PEEK=$(find /etc/apt/sources.list.d/ -name peek-developers-*.list | head -1)
-if [ -f APT_PEEK ]; then
+if [ -f $APT_PEEK ]; then
   echo_found  "Peek PPA"
 else
   echo_adding "Peek PPA"
