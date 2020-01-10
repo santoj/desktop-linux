@@ -1,10 +1,9 @@
 # FOR USE BY install.sh
 
 vim
-sublime-text
+#sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
 git
 meld
-xreader
 ttf-mscorefonts-installer
 inxi
 neofetch
@@ -13,13 +12,13 @@ openssh-server
 #grub-customizer
 hwinfo
 fwupd
-ukuu
+#ukuu # available as an apt package in LinuxMint, but not on Ubuntu
 tlp
 powertop
 conky
 bleachbit
 gparted
-docky
+#docky # available as an apt package in LinuxMint, but not on Ubuntu
 
 peek
 audacity
@@ -28,8 +27,8 @@ dia
 google-chrome-stable
 passwordsafe
 zoom-player
-python3-gpg # needed by dropbox
-dropbox
+#python3-gpg # needed by dropbox
+#dropbox # available as an apt package in LinuxMint, but not on Ubuntu
 
 #virtualbox -- doesn't work
 #virtualbox-6.1 -- doesn't work

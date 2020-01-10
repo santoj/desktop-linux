@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# DIR = the directory of this script, not the current working directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-CONFIG_DIR=~/.config/desktop-linux
-TEMP_DIR=$CONFIG_DIR/cache
-
 WHOAMI=$(/usr/bin/whoami)
 ORIGINAL_USER=$(logname)
+
+# DIR = the directory of this script, not the current working directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CONFIG_DIR=/home/$ORIGINAL_USER/.config/desktop-linux
+TEMP_DIR=$CONFIG_DIR/cache
 
 ADDING_COLOR=$'\e[1;31m'
 EXISTS_COLOR=$'\e[1;32m'
@@ -14,9 +14,12 @@ END_COLOR=$'\e[0m'
 
 APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
+SNAP_INSTALLED=$TEMP_DIR/snap.installed
 APT_PACKAGES=$CONFIG_DIR/apt-packages.txt
 DPKG_PACKAGES=$CONFIG_DIR/dpkg-packages.txt
 FLATPAK_PACKAGES=$CONFIG_DIR/flatpak-packages.txt
+SNAP_PACKAGES=$CONFIG_DIR/snap-packages.txt
+
 
 function exit_on_error {
   echo "$1"
@@ -37,6 +40,10 @@ function is_apt_installed {
 
 function is_flatpak_installed {
   grep -q "$1/" $FLATPAK_INSTALLED
+}
+
+function is_snap_installed {
+  grep -q "^$1\s*" $SNAP_INSTALLED
 }
 
 function apt_install_if_missing {
@@ -75,12 +82,22 @@ function flatpak_install_if_missing {
   fi
 }
 
+function snap_install_if_missing {
+  SNAP_NAME=$1
+  if is_snap_installed $SNAP_NAME; then
+    echo_found "$SNAP_NAME"
+  else
+    echo_adding "$SNAP_NAME"
+    snap install $SNAP_NAME || exit_on_error "Failed to install SNAP package $SNAP_NAME"
+  fi
+}
+
 function install_packages {
   # PARAMS: <file with a list of packages> <function that will install the packages>
   FILE_WITH_PACKAGES=$1
   FUNCTION_TO_INSTALL_PACKAGES=$2
   if [ -s $FILE_WITH_PACKAGES ]; then
-    while read -r package; do
+    while read -r package url; do
       # ignore comments and blank lines
       [[ "$package" =~ ^#.*$ || "$package" =~ ^\s*$ ]] && continue
       # execute setup-<package> file if present to configure prerequisites (e.g., APT Sources, Keys, etc.)
@@ -101,21 +118,23 @@ function install_packages {
 ###
 if [ "$WHOAMI" != "root" ]; then
   printf 'Please use "sudo" to execute this script.\n'
-  exit 100
+  exit 3
 fi
+
 
 mkdir -p $CONFIG_DIR
 mkdir -p $TEMP_DIR
+[ -r $APT_PACKAGES ]     || touch $APT_PACKAGES
+[ -r $DPKG_PACKAGES ]    || touch $DPKG_PACKAGES
+[ -r $FLATPAK_PACKAGES ] || touch $FLATPAK_PACKAGES
+[ -r $SNAP_PACKAGES ]    || touch $SNAP_PACKAGES
 chown -R $ORIGINAL_USER:$ORIGINAL_USER $CONFIG_DIR
 chown -R $ORIGINAL_USER:$ORIGINAL_USER $TEMP_DIR
 
-[ -r $APT_PACKAGES ] || touch $APT_PACKAGES
-[ -r $DPKG_PACKAGES ] || touch $DPKG_PACKAGES
-[ -r $FLATPAK_PACKAGES ] || touch $FLATPAK_PACKAGES
 
-NUM_LINES=$(wc -l $APT_PACKAGES $DPKG_PACKAGES $FLATPAK_PACKAGES | grep total | awk '{ print $1 }')
+NUM_LINES=$(wc -l $APT_PACKAGES $DPKG_PACKAGES $FLATPAK_PACKAGES $SNAP_PACKAGES | grep total | awk '{ print $1 }')
 if [[ $NUM_LINES -lt 1 ]]; then
-  printf "WARNING: No packages found in the packages files:\n\t$APT_PACKAGES\n\t$DPKG_PACKAGES\n\t$FLATPAK_PACKAGES\n\n"
+  printf "WARNING: No packages found in the packages files:\n\t$APT_PACKAGES\n\t$DPKG_PACKAGES\n\t$FLATPAK_PACKAGES\n\t$SNAP_PACKAGES\n\n"
   printf "Please see the sample packages in\n\t$DIR\nand add desired packages to your files.\n\n"
   exit 2
 fi
@@ -127,11 +146,13 @@ fi
 apt-get update || exit_on_error "Is APT installed?"
 flatpak update || exit_on_error "Is Flatpak installed?"
 gdebi --version || exit_on_error "Is gdebi installed?"
+snap refresh || exit_on_error "Is snap installed?"
 
 
 # Alternate option of "dpkg --get-selections" was avoided since we are using apt for most things
 apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED
 flatpak list 2>/dev/null > $FLATPAK_INSTALLED
+snap list 2>/dev/null > $SNAP_INSTALLED
 
 
 ###
@@ -140,10 +161,12 @@ flatpak list 2>/dev/null > $FLATPAK_INSTALLED
 install_packages $APT_PACKAGES     apt_install_if_missing
 install_packages $DPKG_PACKAGES    dpkg_install_if_missing
 install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
+install_packages $SNAP_PACKAGES    snap_install_if_missing
 
 # get rid of any unnecessary packages
 apt autoremove
 #flatpak remove --unused
+
 
 ###
 ### Firmware Updates
