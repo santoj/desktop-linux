@@ -21,11 +21,6 @@ FLATPAK_PACKAGES=$CONFIG_DIR/flatpak-packages.txt
 SNAP_PACKAGES=$CONFIG_DIR/snap-packages.txt
 
 
-function exit_on_error {
-  echo "$1"
-  exit 1
-}
-
 function echo_found {
   echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
 }
@@ -143,25 +138,28 @@ fi
 ###
 ### Update Package Index and remember what we have already installed
 ###
-apt-get update || exit_on_error "Is APT installed?"
-flatpak update || exit_on_error "Is Flatpak installed?"
-gdebi --version || exit_on_error "Is gdebi installed?"
-snap refresh || exit_on_error "Is snap installed?"
-
+apt-get update  || (echo "APT is required installed. Please install and then rerun this script." && exit 1)
+flatpak update  || (echo "Flatpak is not installed. Any flatpak packages will be ignored." && MISSING_FLATPAK=true)
+gdebi --version || (echo "GDebi is not installed. Any deb packages will be ignored." && MISSING_GDEBI=true)
+if [[ $(grep "^ID=" /etc/os-release | grep "ubuntu") ]]; then
+  snap refresh  || (echo "Snap is not installed. Any snap packages will be ignored." && MISSING_SNAP=true)
+else
+  MISSING_SNAP=true
+fi
 
 # Alternate option of "dpkg --get-selections" was avoided since we are using apt for most things
-apt list 2>/dev/null | grep installed > $APT_OR_DPKG_INSTALLED
-flatpak list 2>/dev/null > $FLATPAK_INSTALLED
-snap list 2>/dev/null > $SNAP_INSTALLED
+apt list 2>/dev/null | grep installed              > $APT_OR_DPKG_INSTALLED
+[ ! $MISSING_FLATPAK ] && flatpak list 2>/dev/null > $FLATPAK_INSTALLED
+[ ! $MISSING_SNAP ]    && snap list    2>/dev/null > $SNAP_INSTALLED
 
 
 ###
 ### Install Packages - to keep code DRY, we pass a function to a function
 ###
-install_packages $APT_PACKAGES     apt_install_if_missing
-install_packages $DPKG_PACKAGES    dpkg_install_if_missing
-install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
-install_packages $SNAP_PACKAGES    snap_install_if_missing
+install_packages                           $APT_PACKAGES     apt_install_if_missing
+[ ! $MISSING_GDEBI ]   && install_packages $DPKG_PACKAGES    dpkg_install_if_missing
+[ ! $MISSING_FLATPAK ] && install_packages $FLATPAK_PACKAGES flatpak_install_if_missing
+[ ! $MISSING_SNAP ]    && install_packages $SNAP_PACKAGES    snap_install_if_missing
 
 # get rid of any unnecessary packages
 apt autoremove
