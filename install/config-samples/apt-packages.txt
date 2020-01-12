@@ -1,40 +1,43 @@
 # FOR USE BY install-software.sh
 
 vim
-#sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
 git
 meld
-ttf-mscorefonts-installer
 inxi
 neofetch
 nethogs
-openssh-server
-samba
-#grub-customizer
 hwinfo
 fwupd
-#ukuu # available as an apt package in LinuxMint, but not on Ubuntu
 tlp
 powertop
-conky
 bleachbit
 gparted
-#docky # available as an apt package in LinuxMint, but not on Ubuntu
-
-peek
 audacity
 vlc
 dia
-google-chrome-stable
 passwordsafe
-zoom-player
-#python3-gpg # needed by dropbox
-#dropbox # available as an apt package in LinuxMint, but not on Ubuntu
+openssh-server
+samba
+python3-gpg # needed by dropbox
+dropbox # available as an apt package in LinuxMint, but not on Ubuntu
+conky
+#docky # available as an apt package in LinuxMint, but not on Ubuntu
 
+# requires prerequisites
+#google-chrome-stable
+#peek
+#ukuu # available as an apt package in LinuxMint, but not on Ubuntu
+#sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
+#grub-customizer
+
+# TBD
 #virtualbox -- doesn't work
 #virtualbox-6.1 -- doesn't work
-
 #wine
 #wine-tricks
 #tmux
 #youtube-dl
+
+# Doesn't work
+#ttf-mscorefonts-installer -- requires human-interaction
+
