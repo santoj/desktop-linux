@@ -6,6 +6,6 @@ if [ -f /etc/apt/sources.list.d/teejee2008* ]; then
   echo_found  "Ukuu PPA"
 else
   echo_adding "Ukuu PPA"
-  add-apt-repository ppa:teejee2008/ppa
+  add-apt-repository -y ppa:teejee2008/ppa
 fi
 

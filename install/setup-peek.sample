@@ -7,7 +7,7 @@ if [ ! -z $APT_PEEK ] && [ -f $APT_PEEK ]; then
   echo_found  "Peek PPA"
 else
   echo_adding "Peek PPA"
-  add-apt-repository ppa:peek-developers/stable
+  add-apt-repository -y ppa:peek-developers/stable
 fi
 
 # refresh apt
