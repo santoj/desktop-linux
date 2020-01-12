@@ -69,11 +69,12 @@ function dpkg_install_if_missing {
 function flatpak_install_if_missing {
   #E.g., flatpak install https://flathub.org/repo/appstream/org.vim.Vim.flatpakref
   FLATPAK_NAME=$1
+  FLATPAK_URL=$2
   if is_flatpak_installed $FLATPAK_NAME; then
     echo_found "$FLATPAK_NAME"
   else
     echo_adding "$FLATPAK_NAME"
-    flatpak install $FLATPAK_NAME || exit_on_error "Failed to install flatpak $FLATPAK_NAME"
+    flatpak install -y $FLATPAK_URL || exit_on_error "Failed to install flatpak $FLATPAK_NAME"
   fi
 }
 
@@ -102,7 +103,7 @@ function install_packages {
         source $SETUP_FILE || exit_on_error "Failed to process $SETUP_FILE"
       fi
       # install the given package
-      ($FUNCTION_TO_INSTALL_PACKAGES $package)
+      ($FUNCTION_TO_INSTALL_PACKAGES $package $url)
     done < $FILE_WITH_PACKAGES
   fi
 }
@@ -138,8 +139,8 @@ fi
 ###
 ### Update Package Index and remember what we have already installed
 ###
-apt-get update              || (echo "APT is required installed. Please install and then rerun this script." && exit 1)
-flatpak update  2>/dev/null || (echo "Flatpak is not installed. Any flatpak packages will be ignored." && MISSING_FLATPAK=true)
+apt-get -y update              || (echo "APT is required installed. Please install and then rerun this script." && exit 1)
+flatpak -y update  2>/dev/null || (echo "Flatpak is not installed. Any flatpak packages will be ignored." && MISSING_FLATPAK=true)
 gdebi --version &>/dev/null || (echo "GDebi is not installed. Any deb packages will be ignored." && MISSING_GDEBI=true)
 if [[ $(grep "^ID=" /etc/os-release | grep "ubuntu") ]]; then
   snap refresh  2>/dev/null || (echo "Snap is not installed. Any snap packages will be ignored." && MISSING_SNAP=true)
