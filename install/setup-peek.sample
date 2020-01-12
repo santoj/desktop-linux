@@ -2,11 +2,14 @@
 # FOR USE BY install.sh
 
 # For Peek
-APT_PEEK=$(find /etc/apt/sources.list.d/ -name peek-developers-*.list | head -1)
-if [ -f $APT_PEEK ]; then
+APT_PEEK="$(find /etc/apt/sources.list.d/ -name peek-developers-*.list | head -1)"
+if [ ! -z $APT_PEEK ] && [ -f $APT_PEEK ]; then
   echo_found  "Peek PPA"
 else
   echo_adding "Peek PPA"
   add-apt-repository ppa:peek-developers/stable
 fi
+
+# refresh apt
+apt-get update
 
