@@ -120,6 +120,8 @@ fi
 
 mkdir -p $CONFIG_DIR
 mkdir -p $TEMP_DIR
+SYMLINK=$DIR/config
+[ ! -L $SYMLINK ] && ln -s $CONFIG_DIR $SYMLINK & chown -h $ORIGINAL_USER:$ORIGINAL_USER $SYMLINK
 [ -r $APT_PACKAGES ]     || touch $APT_PACKAGES
 [ -r $DPKG_PACKAGES ]    || touch $DPKG_PACKAGES
 [ -r $FLATPAK_PACKAGES ] || touch $FLATPAK_PACKAGES
