@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
-
-WHOAMI=$(/usr/bin/whoami)
-ORIGINAL_USER=$(logname)
-
 # DIR = the directory of this script, not the current working directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-CONFIG_DIR=/home/$ORIGINAL_USER/.config/desktop-linux
+source $DIR/../common.sh
+
 TEMP_DIR=$CONFIG_DIR/cache
-
-ADDING_COLOR=$'\e[1;31m'
-EXISTS_COLOR=$'\e[1;32m'
-END_COLOR=$'\e[0m'
-
 APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
 SNAP_INSTALLED=$TEMP_DIR/snap.installed
@@ -22,11 +14,11 @@ SNAP_PACKAGES=$CONFIG_DIR/snap-packages.txt
 
 
 function echo_found {
-  echo "Found  ${EXISTS_COLOR}$1${END_COLOR}"
+  echo "Found  ${GREEN_COLOR}$1${END_COLOR}"
 }
 
 function echo_adding {
-  echo "Adding ${ADDING_COLOR}$1${END_COLOR}"
+  echo "Adding ${RED_COLOR}$1${END_COLOR}"
 }
 
 function is_apt_installed {
@@ -112,11 +104,7 @@ function install_packages {
 ###
 ### MAIN
 ###
-if [ "$WHOAMI" != "root" ]; then
-  printf 'Please use "sudo" to execute this script.\n'
-  exit 3
-fi
-
+exit_unless_root
 
 mkdir -p $CONFIG_DIR
 mkdir -p $TEMP_DIR
