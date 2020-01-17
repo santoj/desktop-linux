@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# abort on errors
-set -eo pipefail
 
 # DIR = the directory of this script, not the current working directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
