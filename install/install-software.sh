@@ -4,6 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/../common.sh
 
 TEMP_DIR=$CONFIG_DIR/cache
+SYMLINK=$DIR/../user-config
 APT_OR_DPKG_INSTALLED=$TEMP_DIR/apt.installed
 FLATPAK_INSTALLED=$TEMP_DIR/flatpak.installed
 SNAP_INSTALLED=$TEMP_DIR/snap.installed
@@ -108,7 +109,7 @@ exit_unless_root
 
 mkdir -p $CONFIG_DIR
 mkdir -p $TEMP_DIR
-SYMLINK=$DIR/config
+
 [ ! -L $SYMLINK ] && ln -s $CONFIG_DIR $SYMLINK & chown -h $ORIGINAL_USER:$ORIGINAL_USER $SYMLINK
 [ -r $APT_PACKAGES ]     || touch $APT_PACKAGES
 [ -r $DPKG_PACKAGES ]    || touch $DPKG_PACKAGES
