@@ -29,15 +29,7 @@ conky
 #ukuu # available as an apt package in LinuxMint, but not on Ubuntu
 #sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
 #grub-customizer
+#virtualbox-6.1
 
-# TBD
-#virtualbox -- doesn't work
-#virtualbox-6.1 -- doesn't work
-#wine
-#wine-tricks
-#tmux
-#youtube-dl
-
-# Doesn't work
 #ttf-mscorefonts-installer -- requires human-interaction
 
