@@ -29,6 +29,7 @@ conky
 #ukuu # available as an apt package in LinuxMint, but not on Ubuntu
 #sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
 #grub-customizer
+#libsdl-ttf2.0-0 # recommended for virtualbox
 #virtualbox-6.1
 
 #ttf-mscorefonts-installer -- requires human-interaction
