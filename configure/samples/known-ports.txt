@@ -1,5 +1,7 @@
 # expected open ports
 53    # systemd-r
+#139  # smbd
+#445  # smbd
 631   # cupsd
 12345 # sshd
 17600 # dropbox
