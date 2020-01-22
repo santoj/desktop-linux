@@ -12,6 +12,7 @@ tlp
 powertop
 bleachbit
 gparted
+at
 audacity
 vlc
 dia
