@@ -19,6 +19,17 @@ else
   wget -qO - https://www.virtualbox.org/download/oracle_vbox.asc | apt-key add
 fi
 
+# For Oracle VM VirtualBox Extension Pack
+VBOX_DIR=/opt/virtualbox
+VBOX_EXT_PACK=Oracle_VM_VirtualBox_Extension_Pack.vbox-extpack
+mkdir -p $VBOX_DIR
+if [ -f $VBOX_DIR/$VBOX_EXT_PACK ]; then
+  echo_found "VirtualBox Extension Pack"
+else
+  echo_adding "Downloading VirtualBox Extension Pack. It will need to be installed later."
+  wget -q https://download.virtualbox.org/virtualbox/6.1.0/Oracle_VM_VirtualBox_Extension_Pack-6.1.0-135406.vbox-extpack -O $VBOX_DIR/$VBOX_EXT_PACK
+fi
+
 # refresh apt
 apt-get update
 
