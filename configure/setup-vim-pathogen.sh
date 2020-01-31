@@ -14,6 +14,7 @@ if [ ! -r $CONFIG_FILE ]; then
 fi
 
 VIM=~/.vim
+VIMRC=~/.vimrc
 AUTOLOAD=$VIM/autoload
 BUNDLE=$VIM/bundle
 mkdir -p $VIM
@@ -23,6 +24,10 @@ mkdir -p $BUNDLE
 cd $VIM
 [ -d vim-pathogen ] || git clone https://github.com/tpope/vim-pathogen.git
 [ -f $AUTOLOAD/pathogen.vim ] || ln -s $VIM/vim-pathogen/autoload/pathogen.vim $AUTOLOAD/pathogen.vim
+
+if (! grep -E -q '^\s*execute pathogen#infect()' $VIMRC); then
+  printf "\n${RED_COLOR}WARNING: You must add \"execute pathogen#infect()\" to your $VIMRC file to enable Pathogen.${END_COLOR}\n"
+fi
 
 cd $BUNDLE
 while read -r git_url
