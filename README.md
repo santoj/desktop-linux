@@ -46,3 +46,9 @@ Any unexpected open ports will be highlighted. Note: This script requires root a
 This script will create a public/private key pair if one does not already exist.
 It will also verify *~/.ssh* directory access permissions and validate that the SSH daemon configuration (i.e., sshd_config) resticts access to key-based authentication only.
 Any irregularities will be highlighted, but not corrected. This script does not require root access.
+
+3. **setup-vim-pathogen.sh**
+This script will setup [Pathogen](https://github.com/tpope/vim-pathogen) to enable plug-ins to be easily added to vim.
+You should copy and modify the **vim-pathogen-git.txt** file in the *./configure/sample/* directory to the user-specific settings directory: *~/.config/desktop-linux/*.
+Your ~/.vimrc file will need this command:
+> execute pathogen#infect()
