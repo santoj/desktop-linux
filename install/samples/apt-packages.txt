@@ -16,6 +16,7 @@ at
 libsane-extras
 audacity
 vlc
+cheese
 dia
 passwordsafe
 openssh-server
@@ -28,6 +29,7 @@ conky
 # requires prerequisites
 #google-chrome-stable
 #peek
+#kazam
 #ukuu # available as an apt package in LinuxMint, but not on Ubuntu
 #sublime-text # available as an apt package in LinuxMint, but as a snap on Ubuntu
 #grub-customizer
