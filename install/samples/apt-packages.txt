@@ -23,7 +23,7 @@ openssh-server
 samba
 python3-gpg # needed by dropbox
 dropbox # available as an apt package in LinuxMint, but not on Ubuntu
-conky
+#conky
 #docky # available as an apt package in LinuxMint, but not on Ubuntu
 
 # requires prerequisites
