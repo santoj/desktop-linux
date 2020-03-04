@@ -18,6 +18,7 @@ audacity
 vlc
 cheese
 dia
+pinta
 passwordsafe
 openssh-server
 samba
