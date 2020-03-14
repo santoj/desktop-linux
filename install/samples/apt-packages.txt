@@ -28,6 +28,7 @@ dropbox # available as an apt package in LinuxMint, but not on Ubuntu
 #docky # available as an apt package in LinuxMint, but not on Ubuntu
 #wine-installer
 #wine-mono
+#winetricks
 
 # requires prerequisites
 #google-chrome-stable
