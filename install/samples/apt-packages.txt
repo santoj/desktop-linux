@@ -16,6 +16,7 @@ at
 libsane-extras
 audacity
 vlc
+handbrake
 cheese
 dia
 pinta
