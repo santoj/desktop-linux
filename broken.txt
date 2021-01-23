@@ -1,0 +1,21 @@
+These packages won't install cleanly as of Linux Mint 20.1 based on Ubuntu 20.04.
+
+These can be installed manually:
+flatpak install flathub com.remarkable.reMarkable
+ttf-mscorefonts-installer
+virtualbox-6.1
+google-chrome-stable
+Zoom
+
+
+These aren't needed:
+vim (flatpak - not needed)
+ukuu
+(all snap packages)
+
+
+Broken:
+sudo add-apt-repository ppa:docky-core/stable && \
+sudo apt-get update && \
+sudo apt-get install docky
+
