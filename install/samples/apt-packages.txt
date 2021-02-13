@@ -6,6 +6,10 @@ meld
 inxi
 neofetch
 nethogs
+openssh-server
+samba
+python3
+python3-pip
 hwinfo
 fwupd
 tlp
