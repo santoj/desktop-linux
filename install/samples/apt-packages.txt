@@ -3,6 +3,7 @@
 vim
 git
 meld
+jq
 inxi
 neofetch
 nethogs
