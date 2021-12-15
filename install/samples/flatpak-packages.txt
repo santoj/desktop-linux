@@ -2,4 +2,6 @@
 # Format: <flatpak name> <URL to flatpak package>
 
 org.vim.Vim https://flathub.org/repo/appstream/org.vim.Vim.flatpakref
+org.audacityteam.Audacity https://flathub.org/repo/appstream/org.audacityteam.Audacity.flatpakref
+org.openshot.OpenShot https://flathub.org/repo/appstream/org.openshot.OpenShot.flatpakref
 
