@@ -23,11 +23,11 @@ function echo_adding {
 }
 
 function is_apt_installed {
-  grep -q "$1/" $APT_OR_DPKG_INSTALLED
+  grep -q "^$1/" $APT_OR_DPKG_INSTALLED
 }
 
 function is_flatpak_installed {
-  grep -q "$1/" $FLATPAK_INSTALLED
+  grep -q "^$1/" $FLATPAK_INSTALLED
 }
 
 function is_snap_installed {
