@@ -1,0 +1,20 @@
+#	$OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
+Include /etc/ssh/sshd_config.d/*.conf
+Port 12345
+
+# Authentication:
+PubkeyAuthentication yes
+
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication no 
+PermitEmptyPasswords no
+
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+
+# override default of no subsystems
+#Subsystem	sftp	/usr/lib/openssh/sftp-server
+

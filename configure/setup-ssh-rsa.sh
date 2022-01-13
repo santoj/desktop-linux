@@ -8,6 +8,7 @@ SSH_DIR=~/.ssh
 RSA_PRIVATE_KEY=$SSH_DIR/id_rsa
 #USER_USER_SSH_CONFIG=$SSH_DIR/config
 SSHD_CONFIG=/etc/ssh/sshd_config
+SSHD_CONFIG_SAMPLE=$DIR/samples/sshd_config
 
 #
 # Setup /home/<user>/.ssh
@@ -46,6 +47,8 @@ function echo_publickey_only() {
   printf "\tPubkeyAuthentication yes\n"
   printf "\tPasswordAuthentication no\n"
   printf "\tChallengeResponseAuthentication no\n\n${END_COLOR}"
+  printf "\nHere's a sample $SSHD_CONFIG file:\n"
+  cat $SSHD_CONFIG_SAMPLE
 }
 
 # ignore comments and empty lines
@@ -54,9 +57,9 @@ grep -E -v '^\s*#\s*' /etc/ssh/sshd_config | grep -E -v '^\s*$' | sort > $SSHD_C
 
 # validate that these specific auth settings are explicity set
 # not being set could be a problem given their default value when not present
-PKAUTH_YES=false
-PSWDAUTH_NO=false
-CRAUTH_NO=false
+PKAUTH_YES=
+PSWDAUTH_NO=
+CRAUTH_NO=
 
 grep -E -q "^\s*PubkeyAuthentication\s+yes" $SSHD_CONFIG_CLEANED
 [ $? -eq 0 ] && PKAUTH_YES=true
@@ -65,7 +68,7 @@ grep -E -q "^\s*PasswordAuthentication\s+no" $SSHD_CONFIG_CLEANED
 grep -E -q "^\s*ChallengeResponseAuthentication\s+no" $SSHD_CONFIG_CLEANED
 [ $? -eq 0 ] && CRAUTH_NO=true
 
-if ! ($PKAUTH_YES && $PSWDAUTH_NO && $CRAUTH_NO); then
+if ! [[ $PKAUTH_YES && $PSWDAUTH_NO && $CRAUTH_NO ]]; then
   echo_publickey_only
 fi
 
