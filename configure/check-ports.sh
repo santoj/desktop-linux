@@ -10,7 +10,7 @@ validate_port_service() {
   local PORT=$1
   local SERVICE=$2
 
-  if (grep -q "$PORT" $KNOWN_PORTS_FILE); then
+  if (grep -q "^\s*$PORT" $KNOWN_PORTS_FILE); then
     echo "$PORT:$SERVICE ${GREEN_COLOR}OK${END_COLOR}"
   else
     echo "$PORT:$SERVICE ${RED_COLOR}WARNING${END_COLOR}"
