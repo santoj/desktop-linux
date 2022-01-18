@@ -13,7 +13,9 @@ vlc
 handbrake
 jq
 at
+meld
 peek
+kazam
 grub-customizer
 wine
 wine-installer
