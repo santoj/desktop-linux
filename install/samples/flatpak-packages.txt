@@ -1,13 +1,15 @@
 # FOR USE BY install-software.sh
 # Format: <flatpak name> <URL to flatpak package>
 
-org.vim.Vim https://flathub.org/repo/appstream/org.vim.Vim.flatpakref
-org.audacityteam.Audacity https://flathub.org/repo/appstream/org.audacityteam.Audacity.flatpakref
-org.openshot.OpenShot https://flathub.org/repo/appstream/org.openshot.OpenShot.flatpakref
+#org.audacityteam.Audacity https://flathub.org/repo/appstream/org.audacityteam.Audacity.flatpakref
+#org.openshot.OpenShot https://flathub.org/repo/appstream/org.openshot.OpenShot.flatpakref
+#org.onlyoffice.desktopeditors https://dl.flathub.org/repo/appstream/org.onlyoffice.desktopeditors.flatpakref
 
-#org.onlyoffice.desktopeditors
-#com.audacityteam.Audacity
-#com.getpostman.Postman
-#com.axosoft.GitKraken
-#com.jgraph.drawio.desktop
+#com.getpostman.Postman https://dl.flathub.org/repo/appstream/com.getpostman.Postman.flatpakref
+#com.axosoft.GitKraken https://dl.flathub.org/repo/appstream/com.axosoft.GitKraken.flatpakref
+#com.jgraph.drawio.desktop https://dl.flathub.org/repo/appstream/com.jgraph.drawio.desktop.flatpakref
+#com.uploadedlobster.peek https://dl.flathub.org/repo/appstream/com.uploadedlobster.peek.flatpakref
+
+#org.vim.Vim https://flathub.org/repo/appstream/org.vim.Vim.flatpakref
+#org.kde.krita https://flathub.org/repo/appstream/org.kde.krita.flatpakref
 

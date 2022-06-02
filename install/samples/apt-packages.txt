@@ -3,32 +3,57 @@
 git
 vim
 gnote
+
 bleachbit
 gparted
 passwordsafe
+
 openssh-server
-samba
-pinta
+#samba
+#ddclient
+
+ffmpeg
+cheese
+kazam
 vlc
 handbrake
+picard
+clementine
+mp3info
+eyed3
+lame
+abcde
+
+pinta
+mypaint
+mypaint-data-extras
+dia
+
+python3
+python3-pip
+python3-gpg # needed by dropbox
+dropbox
+
 jq
 at
 meld
-peek
-kazam
-grub-customizer
-wine
+pandoc
+fdupes
+
+inxi
+neofetch
+nethogs
+hwinfo
+fwupd
+tlp
+powertop
+
 wine-installer
 virtualbox-qt
 virtualbox-ext-pack
 virtualbox-guest-additions-iso
 virtualbox-guest-dkms
-python3-gpg # needed by dropbox
-dropbox
 
-
-# pre-installed on some distros
-#inxi
-#neofetch
-#fwupd
+#docky # available as an apt package in LinuxMint, but not on Ubuntu
+#thunderbird
 
