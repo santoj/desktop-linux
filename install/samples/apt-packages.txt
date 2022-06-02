@@ -8,7 +8,7 @@ bleachbit
 gparted
 passwordsafe
 
-openssh-server
+#openssh-server
 #samba
 #ddclient
 
@@ -49,10 +49,11 @@ tlp
 powertop
 
 wine-installer
-virtualbox-qt
-virtualbox-ext-pack
-virtualbox-guest-additions-iso
-virtualbox-guest-dkms
+
+#virtualbox-qt
+#virtualbox-ext-pack
+#virtualbox-guest-additions-iso
+#virtualbox-guest-dkms
 
 #docky # available as an apt package in LinuxMint, but not on Ubuntu
 #thunderbird
