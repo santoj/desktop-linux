@@ -1,5 +1,2 @@
 # FOR USE BY install-software.sh on Ubuntu
 
-#remarkable
-#sublime-text # requires the --classic flag (consider using setup-sublime-text file if you want this)
-

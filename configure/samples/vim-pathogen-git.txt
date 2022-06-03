@@ -2,6 +2,6 @@ https://github.com/jlanzarotta/bufexplorer.git
 https://github.com/preservim/nerdcommenter.git
 https://github.com/scrooloose/nerdtree.git
 https://github.com/ervandew/supertab.git
-git://github.com/tpope/vim-rails
-git://github.com/tpope/vim-sensible.git
+https://github.com/tpope/vim-rails
+https://github.com/tpope/vim-sensible.git
 

@@ -7,6 +7,7 @@ gnote
 bleachbit
 gparted
 passwordsafe
+veracrypt
 
 #openssh-server
 #samba
@@ -15,6 +16,7 @@ passwordsafe
 ffmpeg
 cheese
 kazam
+
 vlc
 handbrake
 picard
@@ -23,6 +25,7 @@ mp3info
 eyed3
 lame
 abcde
+#libsane-extras
 
 pinta
 mypaint
@@ -47,8 +50,10 @@ hwinfo
 fwupd
 tlp
 powertop
+grub-customizer
 
 wine-installer
+#winetricks
 
 #virtualbox-qt
 #virtualbox-ext-pack
