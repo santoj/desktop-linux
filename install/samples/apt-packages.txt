@@ -5,6 +5,7 @@ vim
 gnote
 retext
 #sublime-text
+xreader
 
 bleachbit
 gparted
