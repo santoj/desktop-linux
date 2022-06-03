@@ -27,11 +27,15 @@ function is_apt_installed {
 }
 
 function is_flatpak_installed {
-  grep -q "^$1/" $FLATPAK_INSTALLED
+  grep -q "^.*$1" $FLATPAK_INSTALLED
 }
 
 function is_snap_installed {
   grep -q "^$1\s*" $SNAP_INSTALLED
+}
+
+function on_error {
+  echo "ERROR: ${RED_COLOR}$1${END_COLOR}"
 }
 
 function apt_install_if_missing {
@@ -40,7 +44,7 @@ function apt_install_if_missing {
     echo_found "$APT_NAME"
   else
     echo_adding "$APT_NAME"
-    apt-get -y install $APT_NAME || exit_on_error "Failed to install APT package $APT_NAME"
+    apt-get -y install $APT_NAME || on_error "Failed to install APT package $APT_NAME"
   fi
 }
 
@@ -55,7 +59,7 @@ function dpkg_install_if_missing {
     # download deb file if missing
     [[ ! -s $DEB_FILE ]] && wget -q $DEB_URL -O $DEB_FILE || echo "DEB file already exists: $DEB_FILE"
     # use gdebi rather than dpkg since it handles dependecies better
-    gdebi -qn $DEB_FILE || exit_on_error "Failed to install deb file $DEB_FILE"
+    gdebi -qn $DEB_FILE || on_error "Failed to install deb file $DEB_FILE"
   fi
 }
 
@@ -67,7 +71,7 @@ function flatpak_install_if_missing {
     echo_found "$FLATPAK_NAME"
   else
     echo_adding "$FLATPAK_NAME"
-    flatpak install -y $FLATPAK_URL || exit_on_error "Failed to install flatpak $FLATPAK_NAME"
+    flatpak install -y $FLATPAK_URL || on_error "Failed to install flatpak $FLATPAK_NAME"
   fi
 }
 
@@ -77,7 +81,7 @@ function snap_install_if_missing {
     echo_found "$SNAP_NAME"
   else
     echo_adding "$SNAP_NAME"
-    snap install $SNAP_NAME || exit_on_error "Failed to install SNAP package $SNAP_NAME"
+    snap install $SNAP_NAME || on_error "Failed to install SNAP package $SNAP_NAME"
   fi
 }
 
@@ -93,7 +97,7 @@ function install_packages {
       SETUP_FILE="$CONFIG_DIR/setup-$package"
       if [[ -s $SETUP_FILE ]]; then
         echo "Processing $SETUP_FILE..."
-        source $SETUP_FILE || exit_on_error "Failed to process $SETUP_FILE"
+        source $SETUP_FILE || on_error "Failed to process $SETUP_FILE"
       fi
       # install the given package
       ($FUNCTION_TO_INSTALL_PACKAGES $package $url)
