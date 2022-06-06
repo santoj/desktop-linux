@@ -68,5 +68,4 @@ wine-installer
 
 #docky # available as an apt package in LinuxMint, but not on Ubuntu
 #thunderbird
-#zoom-player
 

@@ -4,6 +4,7 @@
 #org.audacityteam.Audacity https://flathub.org/repo/appstream/org.audacityteam.Audacity.flatpakref
 #org.openshot.OpenShot https://flathub.org/repo/appstream/org.openshot.OpenShot.flatpakref
 #org.onlyoffice.desktopeditors https://dl.flathub.org/repo/appstream/org.onlyoffice.desktopeditors.flatpakref
+#us.zoom.Zoom https://dl.flathub.org/repo/appstream/us.zoom.Zoom.flatpakref
 
 #com.getpostman.Postman https://dl.flathub.org/repo/appstream/com.getpostman.Postman.flatpakref
 #com.axosoft.GitKraken https://dl.flathub.org/repo/appstream/com.axosoft.GitKraken.flatpakref
