@@ -10,7 +10,6 @@ xreader
 bleachbit
 gparted
 passwordsafe
-veracrypt
 
 #openssh-server
 #samba

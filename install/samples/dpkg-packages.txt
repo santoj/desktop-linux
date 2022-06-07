@@ -1,6 +1,8 @@
 # FOR USE BY install-software.sh
 # Format: <APT name> <URL to debian package>
 
+veracrypt                 https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Ubuntu-20.04-amd64.deb
+
 # remarkable should be installed with dpkg on Linux Mint, but with snap on Ubuntu
 #remarkable                https://remarkableapp.github.io/files/remarkable_1.87_all.deb
 
