@@ -6,6 +6,7 @@ gnote
 retext
 #sublime-text
 xreader
+#openssh-server
 
 bleachbit
 gparted
