@@ -15,6 +15,7 @@ passwordsafe
 #openssh-server
 #samba
 #ddclient
+#nmap
 
 ffmpeg
 cheese
