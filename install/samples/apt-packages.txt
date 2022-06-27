@@ -49,6 +49,7 @@ at
 meld
 pandoc
 fdupes
+pdfgrep
 
 inxi
 neofetch

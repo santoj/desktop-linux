@@ -9,6 +9,7 @@
 #com.getpostman.Postman https://dl.flathub.org/repo/appstream/com.getpostman.Postman.flatpakref
 #com.axosoft.GitKraken https://dl.flathub.org/repo/appstream/com.axosoft.GitKraken.flatpakref
 #com.jgraph.drawio.desktop https://dl.flathub.org/repo/appstream/com.jgraph.drawio.desktop.flatpakref
+#nl.hjdskes.gcolor3 https://dl.flathub.org/repo/appstream/nl.hjdskes.gcolor3.flatpakref
 #com.uploadedlobster.peek https://dl.flathub.org/repo/appstream/com.uploadedlobster.peek.flatpakref
 #org.kde.krita https://flathub.org/repo/appstream/org.kde.krita.flatpakref
 #io.github.wereturtle.ghostwriter https://dl.flathub.org/repo/appstream/io.github.wereturtle.ghostwriter.flatpakref
