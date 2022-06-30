@@ -47,9 +47,15 @@ dropbox
 jq
 at
 meld
-pandoc
 fdupes
 pdfgrep
+
+pandoc
+texlive-latex-recommended
+texlive-fonts-recommended
+texlive-latex-extra
+texlive-fonts-extra
+texlive-xetex
 
 inxi
 neofetch
