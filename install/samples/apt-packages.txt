@@ -6,11 +6,11 @@ gnote
 retext
 #sublime-text
 xreader
-#openssh-server
 
 bleachbit
 gparted
 passwordsafe
+#veracrypt
 
 #openssh-server
 #samba
@@ -49,6 +49,8 @@ at
 meld
 fdupes
 pdfgrep
+tree
+inotify-tools
 
 pandoc
 texlive-latex-recommended
