@@ -4,7 +4,11 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/../common.sh
 
-KNOWN_PORTS_FILE=$CONFIG_DIR/known-ports.txt
+if [ $# -eq 1 ]; then
+  KNOWN_PORTS_FILE=$1
+else
+  KNOWN_PORTS_FILE=$CONFIG_DIR/known-ports.txt
+fi
 
 validate_port_service() {
   local PORT=$1
