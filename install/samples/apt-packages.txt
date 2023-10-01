@@ -25,6 +25,7 @@ vlc
 handbrake
 picard
 clementine
+mediainfo
 mp3info
 eyed3
 lame
